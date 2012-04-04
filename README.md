@@ -48,8 +48,8 @@ The length modifier is used to ensure that a string is exactly the length specif
 
 ```js
 // pad the string test to 10 characters
-formatter('{{ 0|len:10 }}')('test'); 
+formatter('{{ 0|len:10 }}')('test');   // 'test      '
 
 // pad the string test to 10 characters, using a as the padding character
-formatter('{{ 0|len:10:a }}')('test');
-``
+formatter('{{ 0|len:10:a }}')('test'); // 'testaaaaaa'
+```
