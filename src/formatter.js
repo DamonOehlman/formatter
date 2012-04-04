@@ -1,8 +1,41 @@
-var reVariable = /\{\{\s*([^\}]+?)\s*\}\}/;
+var reVariable = /\{\{\s*([^\}]+?)\s*\}\}/,
+    mods = {};
+    
+// initialise the length mod
+mods.len = function(length, padder) {
+    // default the padder to a space
+    padder = padder || ' ';
+    
+    return function(input) {
+        var output = input.slice(0, length);
+        
+        // pad the string to the required length
+        while (output.length < length) {
+            output = output + padder;
+        }
+        
+        return output;
+    };
+};
+
+function createModifiers(modifierStrings) {
+    var modifiers = [];
+    
+    for (var ii = 0, count = modifierStrings.length; ii < count; ii++) {
+        var parts = modifierStrings[ii].split(':'),
+            fn = mods[parts[0].toLowerCase()];
+        
+       if (fn) {
+           modifiers[modifiers.length] = fn.apply(null, parts.slice(1));
+       }
+    }
+    
+    return modifiers;
+}
 
 function formatter(format) {
     // extract the matches from the string
-    var parts = [], chunk, varname,
+    var parts = [], chunk, varname, varParts,
         match = reVariable.exec(format);
         
     while (match) {
@@ -14,13 +47,17 @@ function formatter(format) {
             parts[parts.length] = chunk;
         }
         
+        varParts = match[1].split(/\s*\|\s*/);
+        match[1] = varParts[0];
+        
         // extract the varname
         varname = parseInt(match[1], 10);
         
         // extract the expression and add it as a function
         parts[parts.length] = {
             numeric: !isNaN(varname),
-            varname: varname || match[1]
+            varname: varname || match[1],
+            modifiers: varParts.length > 1 ? createModifiers(varParts.slice(1)) : []
         };
 
         // remove this matched chunk and replacer from the string
@@ -44,6 +81,11 @@ function formatter(format) {
             
             if (typeof part == 'object') {
                 output[ii] = (part.numeric ? arguments[part.varname] : (arguments[0] || {})[part.varname]) || '';
+                
+                // if we have modifiers, then tweak the output
+                for (var modIdx = 0, count = part.modifiers.length; modIdx < count; modIdx++) {
+                    output[ii] = part.modifiers[modIdx](output[ii]);
+                }
             }
         }
         
