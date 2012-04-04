@@ -40,3 +40,16 @@ I've done some [performance benchmarks](http://jsperf.com/formatter-performance)
 
 Additionally, it should be noted that using formatter is 100% slower than concatenating strings, so don't use it where performance is critical.  Do use it where not repeating yourself is.
 
+## Modifiers
+
+### Length Modifier (len)
+
+The length modifier is used to ensure that a string is exactly the length specified.  The string is sliced to the required max length, and then padded out with spaces (or a specified character) to meet the required length.
+
+```js
+// pad the string test to 10 characters
+formatter('{{ 0|len:10 }}')('test'); 
+
+// pad the string test to 10 characters, using a as the padding character
+formatter('{{ 0|len:10:a }}')('test');
+``
