@@ -1,5 +1,7 @@
 # formatter
 
+<a href="http://travis-ci.org/#!/DamonOehlman/formatter"><img src="https://secure.travis-ci.org/DamonOehlman/formatter.png" alt="Build Status"></a>
+
 This is a simple library designed to do one thing and one thing only - replace variables in strings with variable values.  It is built in such a way that the formatter strings are parsed and you are provided with a function than can efficiently be called to provide the custom output.
 
 For example:
