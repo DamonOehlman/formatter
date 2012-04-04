@@ -24,7 +24,7 @@ describe('length modifier tests', function() {
     });
     
     it('should be able to process a length modifier (named args, custom padding charater)', function() {
-        var line = formatter('{{ name|len:10 }}');
+        var line = formatter('{{ name|len:10:a }}');
         
         expect(line).to.be.ok();
         expect(line({ name: 'Ted' })).to.equal('Tedaaaaaaa');
