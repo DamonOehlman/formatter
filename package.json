@@ -24,5 +24,7 @@
     "url": "http://github.com/DamonOehlman/formatter/issues"
   },
   
+  "scripts": { "test": "mocha --reporter spec" },
+  
   "contributors": []
 }
