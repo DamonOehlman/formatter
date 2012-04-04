@@ -1,5 +1,5 @@
 define('formatter', [], function() {
-  var reVariable = /\{\{\s*([^\}])\s*\}\}/;
+  var reVariable = /\{\{\s*([^\}]+?)\s*\}\}/;
   
   function createReplacer(variable) {
       // get the varname
@@ -9,7 +9,6 @@ define('formatter', [], function() {
       if (isNaN(parsedVar)) {
           parsedVar = variable;
       }
-      
       
       if (typeof parsedVar == 'number') {
           return function() {
