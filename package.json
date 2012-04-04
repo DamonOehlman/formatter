@@ -1,6 +1,6 @@
 {
   "name": "formatter",
-  "description": "Simple string formatting helper",
+  "description": "Simple String Variable Replacement Formatter",
   "author": "Damon Oehlman <damon.oehlman@sidelab.com>",
   "tags": [ "string", "formatting", "variable", "replacement" ],
   "version": "0.0.1",
