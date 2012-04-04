@@ -32,3 +32,9 @@ console.log(likefood({ great: 'bacon', poor: 'bread' }));
 
 This will yield the same output as our first example.
 
+## Performance
+
+I've done some [performance benchmarks](http://jsperf.com/formatter-performance) and formatter is faster than handlebars, but that isn't surprising as it is far simpler and doesn't have the smarts of HBS.  The test is really there to ensure that I didn't do anything too silly...
+
+Additionally, it should be noted that using formatter is 100% slower than concatenating strings, so don't use it where performance is critical.  Do use it where not repeating yourself is.
+
