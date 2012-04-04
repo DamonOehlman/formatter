@@ -36,17 +36,14 @@ function formatter(format) {
     }
     
     return function() {
-        var output = [];
+        var output = [].concat(parts);
         
         // iterate through the parts list and compile the result string
-        for (var ii = parts.length; ii--; ) {
-            var part = parts[ii];
+        for (var ii = output.length; ii--; ) {
+            var part = output[ii];
             
             if (typeof part == 'object') {
                 output[ii] = (part.numeric ? arguments[part.varname] : (arguments[0] || {})[part.varname]) || '';
-            }
-            else {
-                output[ii] = part;
             }
         }
         
