@@ -1,0 +1,28 @@
+{
+  "name": "formatter",
+  "description": "Simple string formatting helper",
+  "author": "Damon Oehlman <damon.oehlman@sidelab.com>",
+  "tags": [ "string", "formatting", "variable", "replacement" ],
+  "version": "0.0.1",
+  "main": "pkg/cjs/formatter",
+  "engines": {
+    "node": ">= 0.4.x < 0.7.0"
+  },
+  "dependencies": {
+  },
+
+  "devDependencies": {
+    "mocha": "*",
+    "expect.js": "*"
+  },
+
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/DamonOehlman/formatter.git"
+  },
+  "bugs": {
+    "url": "http://github.com/DamonOehlman/formatter/issues"
+  },
+  
+  "contributors": []
+}
