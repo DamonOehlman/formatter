@@ -15,4 +15,18 @@ describe('length modifier tests', function() {
         expect(line).to.be.ok();
         expect(line('test')).to.equal('testaaaaaa');
     });
+    
+    it('should be able to process a length modifier (named args)', function() {
+        var line = formatter('{{ name|len:10 }}');
+        
+        expect(line).to.be.ok();
+        expect(line({ name: 'Ted' })).to.equal('Ted       ');
+    });
+    
+    it('should be able to process a length modifier (named args, custom padding charater)', function() {
+        var line = formatter('{{ name|len:10 }}');
+        
+        expect(line).to.be.ok();
+        expect(line({ name: 'Ted' })).to.equal('Tedaaaaaaa');
+    });
 });
