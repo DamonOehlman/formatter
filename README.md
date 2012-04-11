@@ -4,6 +4,8 @@
 
 This is a simple library designed to do one thing and one thing only - replace variables in strings with variable values.  It is built in such a way that the formatter strings are parsed and you are provided with a function than can efficiently be called to provide the custom output.
 
+__NOTE__: Formatter is not designed to be a templating library and if you are already using something like Handlebars or [hogan](https://github.com/twitter/hogan.js) in your library or application stack consider using them instead.
+
 For example:
 
 ```js
