@@ -36,6 +36,10 @@ console.log(likefood({ great: 'bacon', poor: 'bread' }));
 
 This will yield the same output as our first example.
 
+### Nested Property Values
+
+Since version `0.1.0` you can also access nested property values, as you can with templates like handlebars.
+
 ## Performance
 
 I've done some [performance benchmarks](http://jsperf.com/formatter-performance) and formatter is faster than handlebars, but that isn't surprising as it is far simpler and doesn't have the smarts of HBS.  The test is really there to ensure that I didn't do anything too silly...
