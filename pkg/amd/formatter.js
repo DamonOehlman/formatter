@@ -81,7 +81,19 @@ define('formatter', [], function() {
               var part = output[ii];
               
               if (typeof part == 'object') {
-                  output[ii] = (part.numeric ? arguments[part.varname] : (arguments[0] || {})[part.varname]) || '';
+                  // if this is a numeric part, this is a simple index lookup
+                  if (part.numeric) {
+                      output[ii] = arguments[part.varname];
+                  }
+                  // otherwise, we are doing a recursive property search
+                  else {
+                      var propNames = (part.varname || '').split('.');
+                      
+                      output[ii] = (arguments[0] || {});
+                      while (propNames.length > 0) {
+                          output[ii] = output[ii][propNames.shift()] || {};
+                      }
+                  }
                   
                   // if we have modifiers, then tweak the output
                   for (var modIdx = 0, count = part.modifiers.length; modIdx < count; modIdx++) {
