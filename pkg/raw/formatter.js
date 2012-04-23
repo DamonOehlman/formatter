@@ -89,8 +89,8 @@ function formatter(format) {
                     var propNames = (part.varname || '').split('.');
                     
                     output[ii] = (arguments[0] || {});
-                    while (propNames.length > 0) {
-                        output[ii] = output[ii][propNames.shift()] || {};
+                    while (output[ii] && propNames.length > 0) {
+                        output[ii] = output[ii][propNames.shift()] || '';
                     }
                 }
                 
@@ -105,3 +105,22 @@ function formatter(format) {
         return output.join('');
     };
 }
+
+formatter.error = function(message) {
+    // create the format
+    var format = formatter(message);
+    
+    return function(err) {
+        var output;
+        
+        // if no error has been supplied, then pass it straight through
+        if (! err) return;
+        
+        // otherwise create a new error with the formatter message in
+        output = new Error(format.apply(null, Array.prototype.slice.call(arguments, 1)));
+        output._original = err;
+        
+        // return the new error
+        return output;
+    };
+};

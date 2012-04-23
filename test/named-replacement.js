@@ -29,4 +29,10 @@ describe('named expression replacement tests', function() {
         expect(test).to.be.ok();
         expect(test({ best: 'bacon', ok: 'ham' })).to.equal('I like bacon, it is way better than ham...');
     });
+    
+    it('should remove unresolved placeholders', function() {
+        var test = formatter('Hi there {{ name}}!');
+        
+        expect(test()).to.equal('Hi there !');
+    });
 });
