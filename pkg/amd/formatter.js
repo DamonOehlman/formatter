@@ -91,7 +91,9 @@ define('formatter', [], function() {
                       
                       output[ii] = (arguments[0] || {});
                       while (output[ii] && propNames.length > 0) {
-                          output[ii] = output[ii][propNames.shift()] || '';
+                          var val = output[ii][propNames.shift()];
+                          
+                          output[ii] = typeof val != 'undefined' ? val : '';
                       }
                   }
                   
@@ -126,5 +128,5 @@ define('formatter', [], function() {
       };
   };
 
-  return formatter;
+  if (typeof formatter != 'undefined') { return formatter; }
 });
