@@ -1,5 +1,5 @@
 var expect = require('expect.js'),
-    formatter = require('../pkg/cjs/formatter'),
+    formatter = require('../dist/commonjs/formatter'),
     testData = {
         name: 'Bob',
         

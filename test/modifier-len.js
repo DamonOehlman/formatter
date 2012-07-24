@@ -1,5 +1,5 @@
 var expect = require('expect.js'),
-    formatter = require('../pkg/cjs/formatter');
+    formatter = require('../dist/commonjs/formatter');
 
 describe('length modifier tests', function() {
     it('should be able to process a length modifier (numeric args)', function() {

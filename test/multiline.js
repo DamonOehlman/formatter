@@ -1,5 +1,5 @@
 var expect = require('expect.js'),
-    formatter = require('../pkg/cjs/formatter');
+    formatter = require('../dist/commonjs/formatter');
 
 describe('multiline input strings', function() {
     it('should be able to replace named expressions (spaceless expression)', function() {

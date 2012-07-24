@@ -1,3 +1,5 @@
+
+// req: 
 var reVariable = /\{\{\s*([^\}]+?)\s*\}\}/,
     mods = {};
     
@@ -126,5 +128,3 @@ formatter.error = function(message) {
         return output;
     };
 };
-
-if (typeof formatter != 'undefined') { module.exports = formatter; }

@@ -9,7 +9,7 @@
     "replacement"
   ],
   "version": "0.1.3",
-  "main": "pkg/cjs/formatter",
+  "main": "dist/commonjs/formatter",
   "engines": {
     "node": ">= 0.6.x < 0.9.0"
   },

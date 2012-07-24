@@ -1,5 +1,5 @@
 var expect = require('expect.js'),
-    formatter = require('../pkg/cjs/formatter'),
+    formatter = require('../dist/commonjs/formatter'),
     message = 'Unable to run module: {{ name }}';
 
 describe('error helper tests', function() {
