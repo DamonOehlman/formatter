@@ -1,6 +1,26 @@
+/* ~formatter~
+ * 
+ * Simple String Variable Replacement Formatter
+ * 
+ * -meta---
+ * version:    0.1.5
+ * builddate:  2012-10-30T00:00:26.204Z
+ * generator:  interleave@0.5.23
+ * 
+ * 
+ * 
+ */ 
 
-// req: 
-(function(glob) {
+// umdjs returnExports pattern: https://github.com/umdjs/umd/blob/master/returnExports.js
+(function (root, factory) {
+    if (typeof exports === 'object') {
+        module.exports = factory();
+    } else if (typeof define === 'function' && define.amd) {
+        define([], factory);
+    } else {
+        root['formatter'] = factory();
+    }
+}(this, function () {
     var reVariable = /\{\{\s*([^\}]+?)\s*\}\}/,
         mods = {};
         
@@ -130,7 +150,5 @@
         };
     };
     
-    if (typeof formatter != 'undefined') {
-        glob.formatter = formatter;
-    }
-}(this));
+    return typeof formatter != 'undefined' ? formatter : undefined;
+}));

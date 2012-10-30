@@ -1,5 +1,5 @@
 var expect = require('expect.js'),
-    formatter = require('../dist/commonjs/formatter');
+    formatter = require('../formatter');
 
 describe('argument replacement tests', function() {
     it('should be able to replace numeric expressions with argument values', function() {

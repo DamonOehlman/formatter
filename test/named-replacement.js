@@ -1,5 +1,5 @@
 var expect = require('expect.js'),
-    formatter = require('../dist/commonjs/formatter');
+    formatter = require('../formatter');
 
 describe('named expression replacement tests', function() {
     it('should be able to replace named expressions (spaceless expression)', function() {

@@ -1,5 +1,5 @@
 var expect = require('expect.js'),
-    formatter = require('../dist/commonjs/formatter');
+    formatter = require('../formatter');
 
 describe('empty formatter tests', function() {
     it('should be able to successfully parse an empty formatter string', function() {

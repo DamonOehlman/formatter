@@ -1,7 +1,7 @@
 SHELL := /bin/bash
 
 build:
-	@interleave build --wrap=amd,commonjs,glob,ender
+	@interleave --output ./
 
 test:
 	@mocha --reporter spec

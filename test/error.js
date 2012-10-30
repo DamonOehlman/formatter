@@ -1,5 +1,5 @@
 var expect = require('expect.js'),
-    formatter = require('../dist/commonjs/formatter'),
+    formatter = require('../formatter'),
     message = 'Unable to run module: {{ name }}';
 
 describe('error helper tests', function() {
