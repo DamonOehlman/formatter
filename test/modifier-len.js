@@ -29,4 +29,11 @@ describe('length modifier tests', function() {
         expect(line).to.be.ok();
         expect(line({ name: 'Ted' })).to.equal('Tedaaaaaaa');
     });
+
+    it('should pad numeric ladding to the left of the original value', function() {
+        var line = formatter('{{ value|len:10:0 }}');
+
+        expect(line).to.be.ok();
+        expect(line({ value: 500 })).to.equal('0000000500');
+    });
 });

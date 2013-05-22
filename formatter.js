@@ -22,19 +22,26 @@
     }
 }(this, function () {
     var reVariable = /\{\{\s*([^\}]+?)\s*\}\}/,
-        mods = {};
+        mods = {},
+        isNumber;
         
     // initialise the length mod
     mods.len = function(length, padder) {
+        var testInt = parseInt(padder, 10);
+
         // default the padder to a space
-        padder = padder || ' ';
+        padder = (! isNaN(testInt)) ? testInt : (padder || ' ');
+
+        // check whether we have a number for padding (we will pad left if we do)
+        isNumber = typeof padder == 'number';
+        console.log(padder, isNumber);
         
         return function(input) {
-            var output = input.slice(0, length);
+            var output = input.toString().slice(0, length);
             
             // pad the string to the required length
             while (output.length < length) {
-                output = output + padder;
+                output = isNumber ? padder + output : output + padder;
             }
             
             return output;
