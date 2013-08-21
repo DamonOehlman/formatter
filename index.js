@@ -12,14 +12,14 @@ var mods = require('./mods');;
   way that the formatter strings are parsed and you are provided with a
   function than can efficiently be called to provide the custom output.
 
+  ## Example Usage
+
+  <<< examples/likefood.js
+
   __NOTE__: Formatter is not designed to be a templating library and if
   you are already using something like Handlebars or
   [hogan](https://github.com/twitter/hogan.js) in your library or application
   stack consider using them instead.
-
-  For example:
-
-  <<< examples/likefood.js
 
   ## Using named variables
 
@@ -30,7 +30,7 @@ var mods = require('./mods');;
 
   <<< examples/likefood-named.js
 
-  ### Nested Property Values
+  ## Nested Property Values
 
   Since version `0.1.0` you can also access nested property values, as you
   can with templates like handlebars.

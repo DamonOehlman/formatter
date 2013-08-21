@@ -5,12 +5,16 @@ replace variables in strings with variable values.  It is built in such a
 way that the formatter strings are parsed and you are provided with a
 function than can efficiently be called to provide the custom output.
 
-__NOTE__: Formatter is not designed to be a templating library and if
-you are already using something like Handlebars or
-[hogan](https://github.com/twitter/hogan.js) in your library or application
-stack consider using them instead.
 
-For example:
+[![NPM](https://nodei.co/npm/formatter.png)](https://nodei.co/npm/formatter/)
+
+[![Build Status](https://travis-ci.org/DamonOehlman/formatter.png?branch=master)](https://travis-ci.org/DamonOehlman/formatter)
+[![stable](http://hughsk.github.io/stability-badges/dist/stable.svg)](http://github.com/hughsk/stability-badges)
+
+[![browser support](https://ci.testling.com/DamonOehlman/formatter.png)](https://ci.testling.com/DamonOehlman/formatter)
+
+
+## Example Usage
 
 ```js
 var formatter = require('formatter');
@@ -21,14 +25,10 @@ console.log(likefood('bacon', 'bread'));
 // <-- I like bacon, bacon is excellent and kicks the pants off bread.
 ```
 
-
-[![NPM](https://nodei.co/npm/formatter.png)](https://nodei.co/npm/formatter/)
-
-[![Build Status](https://travis-ci.org/DamonOehlman/formatter.png?branch=master)](https://travis-ci.org/DamonOehlman/formatter)
-[![stable](http://hughsk.github.io/stability-badges/dist/stable.svg)](http://github.com/hughsk/stability-badges)
-
-[![browser support](https://ci.testling.com/DamonOehlman/formatter.png)](https://ci.testling.com/DamonOehlman/formatter)
-
+__NOTE__: Formatter is not designed to be a templating library and if
+you are already using something like Handlebars or
+[hogan](https://github.com/twitter/hogan.js) in your library or application
+stack consider using them instead.
 
 ## Using named variables
 
@@ -45,7 +45,7 @@ console.log(likefood({ great: 'bacon', poor: 'bread' }));
 // <-- I like bacon, bacon is excellent and kicks the pants off bread.
 ```
 
-### Nested Property Values
+## Nested Property Values
 
 Since version `0.1.0` you can also access nested property values, as you
 can with templates like handlebars.
