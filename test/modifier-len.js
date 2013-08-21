@@ -1,39 +1,42 @@
-var expect = require('expect.js'),
-    formatter = require('../formatter');
+var test = require('tape');
+var formatter = require('..');
 
-describe('length modifier tests', function() {
-    it('should be able to process a length modifier (numeric args)', function() {
-        var line = formatter('{{ 0|len:10 }}');
-        
-        expect(line).to.be.ok();
-        expect(line('test')).to.equal('test      ');
-    });
-    
-    it('should be able to process a length modifier (numeric args, custom padding charater)', function() {
-        var line = formatter('{{ 0|len:10:a }}');
-        
-        expect(line).to.be.ok();
-        expect(line('test')).to.equal('testaaaaaa');
-    });
-    
-    it('should be able to process a length modifier (named args)', function() {
-        var line = formatter('{{ name|len:10 }}');
-        
-        expect(line).to.be.ok();
-        expect(line({ name: 'Ted' })).to.equal('Ted       ');
-    });
-    
-    it('should be able to process a length modifier (named args, custom padding charater)', function() {
-        var line = formatter('{{ name|len:10:a }}');
-        
-        expect(line).to.be.ok();
-        expect(line({ name: 'Ted' })).to.equal('Tedaaaaaaa');
-    });
+test('process a length modifier (numeric args)', function(t) {
+  var line;
 
-    it('should pad numeric ladding to the left of the original value', function() {
-        var line = formatter('{{ value|len:10:0 }}');
+  t.plan(2);
+  t.ok(line = formatter('{{ 0|len:10 }}'), 'created formatter');
+  t.equal(line('test'), 'test      ');
+});
 
-        expect(line).to.be.ok();
-        expect(line({ value: 500 })).to.equal('0000000500');
-    });
+test('process a length modifier (numeric args, custom padding charater)', function(t) {
+  var line;
+
+  t.plan(2);
+  t.ok(line = formatter('{{ 0|len:10:a }}'), 'created formatter');
+  t.equal(line('test'), 'testaaaaaa');
+});
+
+test('process a length modifier (named args)', function(t) {
+  var line;
+
+  t.plan(2);
+  t.ok(line = formatter('{{ name|len:10 }}'), 'created formatter');
+  t.equal(line({ name: 'Ted' }), 'Ted       ');
+});
+
+test('process a length modifier (named args, custom padding charater)', function(t) {
+  var line;
+
+  t.plan(2);
+  t.ok(line = formatter('{{ name|len:10:a }}'), 'created formatter');
+  t.equal(line({ name: 'Ted' }), 'Tedaaaaaaa');
+});
+
+test('pad numeric ladding to the left of the original value', function(t) {
+  var line;
+
+  t.plan(2);
+  t.ok(line = formatter('{{ value|len:10:0 }}'), 'created formatter');
+  t.equal(line({ value: 500 }), '0000000500');
 });

@@ -9,8 +9,8 @@
     "variable",
     "replacement"
   ],
-  "main": "formatter.js",
+  "main": "index.js",
   "scripts": [
-    "formatter.js"
+    "index.js"
   ]
 }

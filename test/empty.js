@@ -1,20 +1,22 @@
-var expect = require('expect.js'),
-    formatter = require('../formatter');
+var test = require('tape');
+var formatter = require('..');
 
-describe('empty formatter tests', function() {
-    it('should be able to successfully parse an empty formatter string', function() {
-        var empty = formatter('');
-        
-        expect(empty).to.be.ok();
-        expect(empty()).to.equal('');
-        expect(empty('hi')).to.equal('');
-    });
-    
-    it('should be able to successfully parse a formatter with no arguments', function() {
-        var empty = formatter();
-        
-        expect(empty).to.be.ok();
-        expect(empty()).to.equal('');
-        expect(empty('hi')).to.equal('');
-    });
+test('parse an empty formatter string', function(t) {
+  var empty;
+
+  t.plan(3);
+
+  t.ok(empty = formatter(''), 'formatter executed');
+  t.equal(empty(), '');
+  t.equal(empty('hi'), '');
+});
+
+test('parse a formatter with no arguments', function(t) {
+  var empty;
+
+  t.plan(3);
+
+  t.ok(empty = formatter(), 'formatter executed');
+  t.equal(empty(), '');
+  t.equal(empty('hi'), '');
 });

@@ -1,8 +1,8 @@
 {
   "name": "formatter",
   "description": "Simple String Variable Replacement Formatter",
-  "author": "Damon Oehlman <damon.oehlman@sidelab.com>",
-  "tags": [
+  "author": "Damon Oehlman <damon.oehlman@gmail.com>",
+  "keywords": [
     "string",
     "formatting",
     "variable",
@@ -12,8 +12,7 @@
   "main": "formatter",
   "dependencies": {},
   "devDependencies": {
-    "mocha": "~1.12.0",
-    "expect.js": "~0.2.0"
+    "tape": "~1.0.4"
   },
   "repository": {
     "type": "git",
@@ -23,16 +22,35 @@
     "url": "http://github.com/DamonOehlman/formatter/issues"
   },
   "scripts": {
-    "test": "./node_modules/.bin/mocha --reporter spec"
+    "test": "node test/all.js"
+  },
+  "testling": {
+    "files": "test/all.js",
+    "server": "test/server.js",
+    "browsers": {
+      "ie": [
+        "latest"
+      ],
+      "ff": [
+        "latest",
+        "nightly"
+      ],
+      "chrome": [
+        "latest",
+        "canary"
+      ],
+      "opera": [
+        "latest",
+        "next"
+      ],
+      "safari": [
+        "latest"
+      ]
+    }
   },
   "directories": {
+    "example": "examples",
     "test": "test"
   },
-  "keywords": [
-    "string",
-    "formatting",
-    "variable",
-    "replacement"
-  ],
   "license": "MIT"
 }
