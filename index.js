@@ -55,14 +55,16 @@ var formatter = module.exports = function(format) {
   var varname;
   var varParts;
   var match = reVariable.exec(format);
-      
+  var haveNumeric;
+  var isNumeric;
+
   while (match) {
     // get the prematch chunk
     chunk = format.slice(0, match.index);
     
     // if we have a valid chunk, add it to the parts
     if (chunk) {
-      parts[parts.length] = chunk;
+      parts[parts.length] = { value: chunk };
     }
     
     varParts = match[1].split(/\s*\|\s*/);
@@ -70,11 +72,12 @@ var formatter = module.exports = function(format) {
     
     // extract the varname
     varname = parseInt(match[1], 10);
+    isNumeric = !isNaN(varname); 
     
     // extract the expression and add it as a function
     parts[parts.length] = {
-      numeric: !isNaN(varname),
-      varname: varname || match[1],
+      numeric: isNumeric,
+      varname: isNumeric ? varname : match[1],
       modifiers: varParts.length > 1 ? createModifiers(varParts.slice(1)) : []
     };
 
@@ -85,48 +88,12 @@ var formatter = module.exports = function(format) {
     match = reVariable.exec(format);
   }
   
-  // if we still have some of the format string remaining, add it to the parts list
+  // if we still have some of the format string remaining, add it to the list
   if (format) {
-    parts[parts.length] = format;
+    parts[parts.length] = { value: format };
   }
-  
-  return function() {
-    var output = [].concat(parts);
-    var ii = output.length;
-    var part;
-    var propNames;
-    var val;
-    
-    // iterate through the parts list and compile the result string
-    for (; ii--; ) {
-      part = output[ii];
-      
-      if (typeof part == 'object') {
-        // if this is a numeric part, this is a simple index lookup
-        if (part.numeric) {
-          output[ii] = arguments[part.varname];
-        }
-        // otherwise, we are doing a recursive property search
-        else {
-          propNames = (part.varname || '').split('.');
-          
-          output[ii] = (arguments[0] || {});
-          while (output[ii] && propNames.length > 0) {
-            val = output[ii][propNames.shift()];
-            output[ii] = typeof val != 'undefined' ? val : '';
-          }
-        }
-        
-        // if we have modifiers, then tweak the output
-        for (var modIdx = 0, count = part.modifiers.length; modIdx < count; modIdx++) {
-          output[ii] = part.modifiers[modIdx](output[ii]);
-        }
-      }
-    }
-    
-    // return the output
-    return output.join('');
-  };
+
+  return collect(parts);
 };
 
 formatter.error = function(message) {
@@ -148,6 +115,80 @@ formatter.error = function(message) {
     return output;
   };
 };
+
+function collect(pending) {
+  // initialise the index shift to 0
+  var indexShift = 0;
+
+  return function collectNext() {
+    // get the unresolved parts
+    var unresolved = pending.filter(function(part) {
+      return typeof part.value == 'undefined';
+    });
+
+    // initialise the counter
+    var ii = unresolved.length;
+    var part;
+    var partIdx;
+    var propNames;
+    var val;
+    var numericResolved = [];
+
+    // iterate through the unresolved parts and attempt to resolve the value
+    for (; ii--; ) {
+      part = unresolved[ii];
+
+      if (typeof part == 'object') {
+        // if this is a numeric part, this is a simple index lookup
+        if (part.numeric) {
+          partIdx = part.varname + indexShift;
+          if (arguments.length > partIdx) {
+            part.value = arguments[partIdx];
+            if (numericResolved.indexOf(part.varname) < 0) {
+              numericResolved[numericResolved.length] = part.varname;
+            }
+          }
+        }
+        // otherwise, we are doing a recursive property search
+        else {
+          propNames = (part.varname || '').split('.');
+          
+          part.value = (arguments[0] || {});
+          while (part.value && propNames.length > 0) {
+            val = part.value[propNames.shift()];
+            part.value = typeof val != 'undefined' ? val : '';
+          }
+        }
+      }
+    }
+
+    // update the index shift by the number of numeric parts resolved
+    indexShift += numericResolved.length;
+
+    // reasses unresolved (only caring about numeric parts)
+    unresolved = pending.filter(function(part) {
+      return part.numeric && typeof part.value == 'undefined';
+    });
+
+    // if we have no unresolved parts, then return the value
+    if (unresolved.length === 0) {
+      return pending.map(function(part) {
+        var modIdx = 0;
+        var modCount = part.modifiers ? part.modifiers.length : 0;
+
+        // if we have modifiers, then tweak the output
+        for (; modIdx < modCount; modIdx++) {
+          part.value = part.modifiers[modIdx](part.value);
+        }
+
+        return part.value;
+      }).join('');
+    }
+
+    // otherwise, return the collect function again
+    return collectNext;
+  }
+}
 
 function createModifiers(modifierStrings) {
   var modifiers = [];
