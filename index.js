@@ -2,7 +2,7 @@
 'use strict';
 
 var reVariable = /\{\{\s*([^\}]+?)\s*\}\}/;
-var mods = require('./mods');;
+var mods = require('./mods');
 
 /**
   # formatter
@@ -51,12 +51,13 @@ var mods = require('./mods');;
 var formatter = module.exports = function(format) {
   // extract the matches from the string
   var parts = [];
+  var output = [];
   var chunk;
   var varname;
   var varParts;
   var match = reVariable.exec(format);
-  var haveNumeric;
   var isNumeric;
+  var outputIdx = 0;
 
   while (match) {
     // get the prematch chunk
@@ -64,7 +65,7 @@ var formatter = module.exports = function(format) {
     
     // if we have a valid chunk, add it to the parts
     if (chunk) {
-      parts[parts.length] = { value: chunk };
+      output[outputIdx++] = chunk;
     }
     
     varParts = match[1].split(/\s*\|\s*/);
@@ -72,10 +73,11 @@ var formatter = module.exports = function(format) {
     
     // extract the varname
     varname = parseInt(match[1], 10);
-    isNumeric = !isNaN(varname); 
+    isNumeric = !isNaN(varname);
     
     // extract the expression and add it as a function
     parts[parts.length] = {
+      idx: (outputIdx++),
       numeric: isNumeric,
       varname: isNumeric ? varname : match[1],
       modifiers: varParts.length > 1 ? createModifiers(varParts.slice(1)) : []
@@ -90,10 +92,10 @@ var formatter = module.exports = function(format) {
   
   // if we still have some of the format string remaining, add it to the list
   if (format) {
-    parts[parts.length] = { value: format };
+    output[outputIdx++] = format;
   }
 
-  return collect(parts);
+  return collect(parts, output);
 };
 
 formatter.error = function(message) {
@@ -104,7 +106,9 @@ formatter.error = function(message) {
     var output;
     
     // if no error has been supplied, then pass it straight through
-    if (! err) return;
+    if (! err) {
+      return;
+    }
 
     output = new Error(
       format.apply(null, Array.prototype.slice.call(arguments, 1)));
@@ -116,23 +120,27 @@ formatter.error = function(message) {
   };
 };
 
-function collect(pending) {
-  // initialise the index shift to 0
-  var indexShift = 0;
+function collect(parts, resolved, indexShift) {
+  // default optionals
+  indexShift = indexShift || 0;
 
-  return function collectNext() {
-    // get the unresolved parts
-    var unresolved = pending.filter(function(part) {
-      return typeof part.value == 'undefined';
-    });
-
-    // initialise the counter
-    var ii = unresolved.length;
+  return function() {
+    var output = [].concat(resolved);
+    var unresolved;
+    var ii;
     var part;
     var partIdx;
     var propNames;
     var val;
     var numericResolved = [];
+
+    // find the unresolved parts
+    unresolved = parts.filter(function(part) {
+      return typeof output[part.idx] == 'undefined';
+    });
+
+    // initialise the counter
+    ii = unresolved.length;
 
     // iterate through the unresolved parts and attempt to resolve the value
     for (; ii--; ) {
@@ -141,9 +149,9 @@ function collect(pending) {
       if (typeof part == 'object') {
         // if this is a numeric part, this is a simple index lookup
         if (part.numeric) {
-          partIdx = part.varname + indexShift;
+          partIdx = part.varname - indexShift;
           if (arguments.length > partIdx) {
-            part.value = arguments[partIdx];
+            output[part.idx] = arguments[partIdx];
             if (numericResolved.indexOf(part.varname) < 0) {
               numericResolved[numericResolved.length] = part.varname;
             }
@@ -153,41 +161,46 @@ function collect(pending) {
         else {
           propNames = (part.varname || '').split('.');
           
-          part.value = (arguments[0] || {});
-          while (part.value && propNames.length > 0) {
-            val = part.value[propNames.shift()];
-            part.value = typeof val != 'undefined' ? val : '';
+          output[part.idx] = (arguments[0] || {});
+          while (output[part.idx] && propNames.length > 0) {
+            val = output[part.idx][propNames.shift()];
+            output[part.idx] = typeof val != 'undefined' ? val : '';
           }
+        }
+
+        // if the output was resolved, then apply the modifier
+        if (typeof output[part.idx] != 'undefined' && part.modifiers) {
+          output[part.idx] = applyModifiers(part.modifiers, output[part.idx]);
         }
       }
     }
 
-    // update the index shift by the number of numeric parts resolved
-    indexShift += numericResolved.length;
-
     // reasses unresolved (only caring about numeric parts)
-    unresolved = pending.filter(function(part) {
-      return part.numeric && typeof part.value == 'undefined';
+    unresolved = parts.filter(function(part) {
+      return part.numeric && typeof output[part.idx] == 'undefined';
     });
 
     // if we have no unresolved parts, then return the value
     if (unresolved.length === 0) {
-      return pending.map(function(part) {
-        var modIdx = 0;
-        var modCount = part.modifiers ? part.modifiers.length : 0;
-
-        // if we have modifiers, then tweak the output
-        for (; modIdx < modCount; modIdx++) {
-          part.value = part.modifiers[modIdx](part.value);
-        }
-
-        return part.value;
-      }).join('');
+      return output.join('');
     }
 
     // otherwise, return the collect function again
-    return collectNext;
+    return collect(
+      parts,
+      output,
+      indexShift + numericResolved.length
+    );
+  };
+}
+
+function applyModifiers(modifiers, value) {
+  // if we have modifiers, then tweak the output
+  for (var ii = 0, count = modifiers.length; ii < count; ii++) {
+    value = modifiers[ii](value);
   }
+
+  return value;
 }
 
 function createModifiers(modifierStrings) {
@@ -199,9 +212,9 @@ function createModifiers(modifierStrings) {
     parts = modifierStrings[ii].split(':');
     fn = mods[parts[0].toLowerCase()];
     
-   if (fn) {
-     modifiers[modifiers.length] = fn.apply(null, parts.slice(1));
-   }
+    if (fn) {
+      modifiers[modifiers.length] = fn.apply(null, parts.slice(1));
+    }
   }
   
   return modifiers;
