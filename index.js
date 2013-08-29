@@ -35,6 +35,19 @@ var mods = require('./mods');
   Since version `0.1.0` you can also access nested property values, as you
   can with templates like handlebars.
 
+  ## Partial Execution
+
+  Since version `0.3.x` formatter also supports partial execution when using
+  indexed arguments (e.g. `{{ 0 }}`, `{{ 1 }}`, etc).  For example:
+
+  <<< examples/partial.js
+
+  In the case above, the original formatter function returned by `formatter`
+  did not receive enough values to resolve all the required variables.  As
+  such it returned a function ready to accept the remaining values.
+
+  Once all values have been received the output will be generated.
+
   ## Performance
 
   I've done some

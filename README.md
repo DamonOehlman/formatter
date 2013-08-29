@@ -50,6 +50,31 @@ console.log(likefood({ great: 'bacon', poor: 'bread' }));
 Since version `0.1.0` you can also access nested property values, as you
 can with templates like handlebars.
 
+## Partial Execution
+
+Since version `0.3.x` formatter also supports partial execution when using
+indexed arguments (e.g. `{{ 0 }}`, `{{ 1 }}`, etc).  For example:
+
+```js
+var formatter = require('formatter');
+var likefood = formatter('I like {{ 0 }}, {{ 0 }} is excellent and kicks the pants off {{ 1 }}.');
+var partial;
+
+// get a partial 
+console.log(partial = likefood('bacon'));
+// <-- [Function]
+
+// pass the remaining argument it's waiting for
+console.log(partial('bread'));
+// <-- I like bacon, bacon is excellent and kicks the pants off bread.
+```
+
+In the case above, the original formatter function returned by `formatter`
+did not receive enough values to resolve all the required variables.  As
+such it returned a function ready to accept the remaining values.
+
+Once all values have been received the output will be generated.
+
 ## Performance
 
 I've done some
