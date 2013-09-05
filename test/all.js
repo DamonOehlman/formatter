@@ -6,3 +6,4 @@ require('./multiline');
 require('./named-replacement');
 require('./nested');
 require('./partial');
+require('./ignore-numeric');

@@ -61,7 +61,7 @@ var mods = require('./mods');
   Do use it where not repeating yourself is.
 **/
 
-var formatter = module.exports = function(format) {
+var formatter = module.exports = function(format, opts) {
   // extract the matches from the string
   var parts = [];
   var output = [];
@@ -71,6 +71,7 @@ var formatter = module.exports = function(format) {
   var match = reVariable.exec(format);
   var isNumeric;
   var outputIdx = 0;
+  var ignoreNumeric = (opts || {}).ignoreNumeric;
 
   while (match) {
     // get the prematch chunk
@@ -87,18 +88,26 @@ var formatter = module.exports = function(format) {
     // extract the varname
     varname = parseInt(match[1], 10);
     isNumeric = !isNaN(varname);
-    
-    // extract the expression and add it as a function
-    parts[parts.length] = {
-      idx: (outputIdx++),
-      numeric: isNumeric,
-      varname: isNumeric ? varname : match[1],
-      modifiers: varParts.length > 1 ? createModifiers(varParts.slice(1)) : []
-    };
+
+    // if this is a numeric replacement expression, and we are ignoring
+    // those expressions then pass it through to the output
+    if (ignoreNumeric && isNumeric) {
+      output[outputIdx++] = match[0];
+    }
+    // otherwise, handle normally
+    else {
+      // extract the expression and add it as a function
+      parts[parts.length] = {
+        idx: (outputIdx++),
+        numeric: isNumeric,
+        varname: isNumeric ? varname : match[1],
+        modifiers: varParts.length > 1 ? createModifiers(varParts.slice(1)) : []
+      };
+    }
 
     // remove this matched chunk and replacer from the string
     format = format.slice(match.index + match[0].length);
-    
+
     // check for the next match
     match = reVariable.exec(format);
   }
