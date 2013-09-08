@@ -4,6 +4,7 @@ require('./error');
 require('./modifier-len');
 require('./multiline');
 require('./named-replacement');
+require('./mixed-replacement');
 require('./nested');
 require('./partial');
 require('./ignore-numeric');

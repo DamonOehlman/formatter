@@ -8,6 +8,9 @@
     "variable",
     "replacement"
   ],
+  "bin": {
+    "formatter": "bin/formatter"
+  },
   "version": "0.4.0",
   "main": "formatter",
   "dependencies": {},
