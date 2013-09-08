@@ -180,10 +180,11 @@ function collect(parts, resolved, indexShift) {
           }
         }
         // otherwise, we are doing a recursive property search
-        else {
+        else if (arguments.length > 0) {
           propNames = (part.varname || '').split('.');
-          
-          output[part.idx] = (arguments[0] || {});
+
+          // initialise the output from the last valid argument
+          output[part.idx] = (arguments[arguments.length - 1] || {});
           while (output[part.idx] && propNames.length > 0) {
             val = output[part.idx][propNames.shift()];
             output[part.idx] = typeof val != 'undefined' ? val : '';
