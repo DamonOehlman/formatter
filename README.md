@@ -75,17 +75,26 @@ such it returned a function ready to accept the remaining values.
 
 Once all values have been received the output will be generated.
 
-## Performance
+## Command Line Usage
 
-I've done some
-[performance benchmarks](http://jsperf.com/formatter-performance) and
-formatter is faster than handlebars, but that isn't surprising as it is far
-simpler and doesn't have the smarts of HBS.  The test is really there to
-ensure that I didn't do anything too silly...
+If installed globally (or accessed through `npm bin`) you can run formatter
+as in a CLI.  It's behaviour is pretty simple whereby it takes every 
+argument specified with preceding double-dash (e.g. `--name=Bob`) and
+creates a data object using those variables.  Any remaining variables are
+then passed in as numbered args.
 
-Additionally, it should be noted that using formatter is 100% slower than
-concatenating strings, so don't use it where performance is critical. 
-Do use it where not repeating yourself is.
+So if we had a text file (template.txt):
+
+```
+Welcome to {{ 0 }}, {{ name }}!
+```
+
+Then we would be able to execute formatter like so to generate the expanded
+output to `stdout`:
+
+```
+formatter --name=Bob Australia < template.txt
+```
 
 ## Modifiers
 
