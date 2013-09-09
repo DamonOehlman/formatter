@@ -66,13 +66,13 @@ var mods = require('./mods');
   output to `stdout`:
 
   ```
-  formatter --name=Bob Australia < template.txt
+  formatter --name="Fred Flintstone" Australia < test/template.txt
   ```
 
   produces:
 
   ```
-  Welcome to Australia, Bob!
+  Welcome to Australia, Fred Flintstone!
   ```
 
 **/

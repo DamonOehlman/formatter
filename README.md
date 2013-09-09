@@ -93,13 +93,13 @@ Then we would be able to execute formatter like so to generate the expanded
 output to `stdout`:
 
 ```
-formatter --name=Bob Australia < template.txt
+formatter --name="Fred Flintstone" Australia < test/template.txt
 ```
 
 produces:
 
 ```
-Welcome to Australia, Bob!
+Welcome to Australia, Fred Flintstone!
 ```
 
 ## Modifiers
