@@ -96,6 +96,12 @@ output to `stdout`:
 formatter --name=Bob Australia < template.txt
 ```
 
+produces:
+
+```
+Welcome to Australia, Bob!
+```
+
 ## Modifiers
 
 ### Length Modifier (len)

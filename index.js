@@ -68,7 +68,13 @@ var mods = require('./mods');
   ```
   formatter --name=Bob Australia < template.txt
   ```
-  
+
+  produces:
+
+  ```
+  Welcome to Australia, Bob!
+  ```
+
 **/
 
 var formatter = module.exports = function(format, opts) {
