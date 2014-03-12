@@ -31,11 +31,14 @@
   "testling": {
     "files": "test/all.js",
     "browsers": [
-      "ie/8..latest",
+      "ie/9..latest",
       "firefox/20..latest",
+      "firefox/nightly",
       "chrome/25..latest",
+      "chrome/canary",
       "safari/latest",
       "opera/15..latest",
+      "opera/next",
       "iphone/latest",
       "ipad/latest",
       "android/latest"
