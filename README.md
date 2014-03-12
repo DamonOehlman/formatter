@@ -8,8 +8,8 @@ function than can efficiently be called to provide the custom output.
 
 [![NPM](https://nodei.co/npm/formatter.png)](https://nodei.co/npm/formatter/)
 
-[![Build Status](https://travis-ci.org/DamonOehlman/formatter.png?branch=master)](https://travis-ci.org/DamonOehlman/formatter)
-[![stable](http://hughsk.github.io/stability-badges/dist/stable.svg)](http://github.com/hughsk/stability-badges)
+[![Build Status](https://img.shields.io/travis/DamonOehlman/formatter.svg?branch=master)](https://travis-ci.org/DamonOehlman/formatter)
+![stable](https://img.shields.io/badge/stability-stable-green.svg)
 
 [![browser support](https://ci.testling.com/DamonOehlman/formatter.png)](https://ci.testling.com/DamonOehlman/formatter)
 
