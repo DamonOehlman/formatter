@@ -15,7 +15,7 @@
   "main": "formatter",
   "dependencies": {},
   "devDependencies": {
-    "tape": "~1.0.4"
+    "tape": "^2.10.2"
   },
   "repository": {
     "type": "git",
@@ -30,27 +30,16 @@
   },
   "testling": {
     "files": "test/all.js",
-    "server": "test/server.js",
-    "browsers": {
-      "ie": [
-        "latest"
-      ],
-      "ff": [
-        "latest",
-        "nightly"
-      ],
-      "chrome": [
-        "latest",
-        "canary"
-      ],
-      "opera": [
-        "latest",
-        "next"
-      ],
-      "safari": [
-        "latest"
-      ]
-    }
+    "browsers": [
+      "ie/8..latest",
+      "firefox/20..latest",
+      "chrome/25..latest",
+      "safari/5..latest",
+      "opera/15..latest",
+      "iphone/latest",
+      "ipad/latest",
+      "android/latest"
+    ]
   },
   "directories": {
     "example": "examples",
