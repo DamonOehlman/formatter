@@ -15,7 +15,8 @@
   "main": "formatter",
   "dependencies": {},
   "devDependencies": {
-    "tape": "^2.10.2"
+    "tap-spec": "^4.1.1",
+    "tape": "4"
   },
   "repository": {
     "type": "git",
@@ -25,8 +26,8 @@
     "url": "http://github.com/DamonOehlman/formatter/issues"
   },
   "scripts": {
-    "test": "node test/all.js",
-    "gendocs": "gendocs > README.md"
+    "test": "node test/all.js | tap-spec",
+    "embellish": "embellish README.md"
   },
   "testling": {
     "files": "test/all.js",

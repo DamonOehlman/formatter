@@ -1,9 +1,9 @@
 #!/usr/bin/env node
-var formatter = require('../');
-var chunks = [];
-var data = {};
-var args = process.argv.slice(2);
-var numericArgs = args.filter(function(arg) {
+const formatter = require('../');
+const chunks = [];
+const data = {};
+const args = process.argv.slice(2);
+const numericArgs = args.filter(function(arg) {
   return arg.slice(0, 2) !== '--';
 });
 

@@ -5,27 +5,24 @@ replace variables in strings with variable values.  It is built in such a
 way that the formatter strings are parsed and you are provided with a
 function than can efficiently be called to provide the custom output.
 
-
 [![NPM](https://nodei.co/npm/formatter.png)](https://nodei.co/npm/formatter/)
 
-[![Build Status](https://img.shields.io/travis/DamonOehlman/formatter.svg?branch=master)](https://travis-ci.org/DamonOehlman/formatter)
-![stable](https://img.shields.io/badge/stability-stable-green.svg)
+[![Build Status](https://api.travis-ci.org/DamonOehlman/formatter.svg?branch=master)](https://travis-ci.org/DamonOehlman/formatter)
 
-[![browser support](https://ci.testling.com/DamonOehlman/formatter.png)](https://ci.testling.com/DamonOehlman/formatter)
-
+[![bitHound Score](https://www.bithound.io/github/DamonOehlman/formatter/badges/score.svg)](https://www.bithound.io/github/DamonOehlman/formatter)
 
 ## Example Usage
 
 ```js
-var formatter = require('formatter');
-var likefood = formatter('I like {{ 0 }}, {{ 0 }} is excellent and kicks the pants off {{ 1 }}.');
+const formatter = require('formatter');
+const likefood = formatter('I like {{ 0 }}, {{ 0 }} is excellent and kicks the pants off {{ 1 }}.');
 
 // I can then log out how much I like bacon
 console.log(likefood('bacon', 'bread'));
 // <-- I like bacon, bacon is excellent and kicks the pants off bread.
 ```
 
-__NOTE__: Formatter is not designed to be a templating library and if
+**NOTE**: Formatter is not designed to be a templating library and if
 you are already using something like Handlebars or
 [hogan](https://github.com/twitter/hogan.js) in your library or application
 stack consider using them instead.
@@ -38,8 +35,8 @@ to use particular key values from an input string instead if that is more
 suitable:
 
 ```js
-var formatter = require('formatter');
-var likefood = formatter('I like {{ great }}, {{ great }} is excellent and kicks the pants off {{ poor }}.');
+const formatter = require('formatter');
+const likefood = formatter('I like {{ great }}, {{ great }} is excellent and kicks the pants off {{ poor }}.');
 
 console.log(likefood({ great: 'bacon', poor: 'bread' }));
 // <-- I like bacon, bacon is excellent and kicks the pants off bread.
@@ -56,9 +53,9 @@ Since version `0.3.x` formatter also supports partial execution when using
 indexed arguments (e.g. `{{ 0 }}`, `{{ 1 }}`, etc).  For example:
 
 ```js
-var formatter = require('formatter');
-var likefood = formatter('I like {{ 0 }}, {{ 0 }} is excellent and kicks the pants off {{ 1 }}.');
-var partial;
+const formatter = require('formatter');
+const likefood = formatter('I like {{ 0 }}, {{ 0 }} is excellent and kicks the pants off {{ 1 }}.');
+let partial;
 
 // get a partial 
 console.log(partial = likefood('bacon'));
@@ -115,3 +112,29 @@ formatter('{{ 0|len:10 }}')('test');   // 'test      '
 // pad the string test to 10 characters, using a as the padding character
 formatter('{{ 0|len:10:a }}')('test'); // 'testaaaaaa'
 ```
+
+## LICENSE
+
+The MIT License (MIT)
+
+Copyright (c) 2017 Damon Oehlman <damon.oehlman@gmail.com>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+

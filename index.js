@@ -1,99 +1,21 @@
-/* jshint node: true */
-'use strict';
-
-var reVariable = /\{\{\s*([^\}]+?)\s*\}\}/;
-var mods = require('./mods');
-
-/**
-  # formatter
-
-  This is a simple library designed to do one thing and one thing only -
-  replace variables in strings with variable values.  It is built in such a
-  way that the formatter strings are parsed and you are provided with a
-  function than can efficiently be called to provide the custom output.
-
-  ## Example Usage
-
-  <<< examples/likefood.js
-
-  __NOTE__: Formatter is not designed to be a templating library and if
-  you are already using something like Handlebars or
-  [hogan](https://github.com/twitter/hogan.js) in your library or application
-  stack consider using them instead.
-
-  ## Using named variables
-
-  In the examples above we saw how the formatter can be used to replace
-  function arguments in a formatter string.  We can also set up a formatter
-  to use particular key values from an input string instead if that is more
-  suitable:
-
-  <<< examples/likefood-named.js
-
-  ## Nested Property Values
-
-  Since version `0.1.0` you can also access nested property values, as you
-  can with templates like handlebars.
-
-  ## Partial Execution
-
-  Since version `0.3.x` formatter also supports partial execution when using
-  indexed arguments (e.g. `{{ 0 }}`, `{{ 1 }}`, etc).  For example:
-
-  <<< examples/partial.js
-
-  In the case above, the original formatter function returned by `formatter`
-  did not receive enough values to resolve all the required variables.  As
-  such it returned a function ready to accept the remaining values.
-
-  Once all values have been received the output will be generated.
-
-  ## Command Line Usage
-
-  If installed globally (or accessed through `npm bin`) you can run formatter
-  as in a CLI.  It's behaviour is pretty simple whereby it takes every 
-  argument specified with preceding double-dash (e.g. `--name=Bob`) and
-  creates a data object using those variables.  Any remaining variables are
-  then passed in as numbered args.
-
-  So if we had a text file (template.txt):
-
-  ```
-  Welcome to {{ 0 }}, {{ name }}!
-  ```
-
-  Then we would be able to execute formatter like so to generate the expanded
-  output to `stdout`:
-
-  ```
-  formatter --name="Fred Flintstone" Australia < test/template.txt
-  ```
-
-  produces:
-
-  ```
-  Welcome to Australia, Fred Flintstone!
-  ```
-
-**/
+const reVariable = /\{\{\s*([^\}]+?)\s*\}\}/;
+const mods = require('./mods');
 
 var formatter = module.exports = function(format, opts) {
-  // extract the matches from the string
-  var parts = [];
-  var output = [];
-  var chunk;
-  var varname;
-  var varParts;
-  var match = reVariable.exec(format);
-  var isNumeric;
-  var outputIdx = 0;
-  var ignoreNumeric = (opts || {}).ignoreNumeric;
+  const ignoreNumeric = (opts || {}).ignoreNumeric;
+  const parts = [];
+  const output = [];
+
+  let chunk;
+  let varname;
+  let varParts;
+  let match = reVariable.exec(format);
+  let isNumeric;
+  let outputIdx = 0;
 
   while (match) {
     // get the prematch chunk
     chunk = format.slice(0, match.index);
-    
-    // if we have a valid chunk, add it to the parts
     if (chunk) {
       output[outputIdx++] = chunk;
     }
@@ -109,9 +31,7 @@ var formatter = module.exports = function(format, opts) {
     // those expressions then pass it through to the output
     if (ignoreNumeric && isNumeric) {
       output[outputIdx++] = match[0];
-    }
-    // otherwise, handle normally
-    else {
+    } else {
       // extract the expression and add it as a function
       parts[parts.length] = {
         idx: (outputIdx++),

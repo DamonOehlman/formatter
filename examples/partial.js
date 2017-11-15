@@ -1,5 +1,5 @@
-var formatter = require('..');
-var likefood = formatter('I like {{ 0 }}, {{ 0 }} is excellent and kicks the pants off {{ 1 }}.');
+const formatter = require('..');
+const likefood = formatter('I like {{ 0 }}, {{ 0 }} is excellent and kicks the pants off {{ 1 }}.');
 var partial;
 
 // get a partial 
