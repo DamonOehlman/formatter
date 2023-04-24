@@ -11,7 +11,7 @@
   "bin": {
     "formatter": "bin/formatter"
   },
-  "version": "0.4.1",
+  "version": "0.4.2",
   "devDependencies": {
     "@randomgoods/tap-spec": "^5.0.3",
     "tape": "4"
